@@ -23,7 +23,8 @@ export default function Page() {
     try {
       setLoading(true);
 
-      // ✅ รับ Token จาก MSAL (ต้องมีบัญชีหลัง login)
+      if (accounts.length === 0) return;
+
       const tokenResult = await instance.acquireTokenSilent({
         ...loginRequest,
         account: accounts[0],
@@ -45,26 +46,20 @@ export default function Page() {
   }
 
   useEffect(() => {
-    if (accounts.length > 0) {
-      loadEquipment();
-    }
+    loadEquipment();
   }, [query, status, accounts]);
 
   return (
     <main className="p-4 max-w-5xl mx-auto">
 
-      {/* HEADER */}
       <header className="ig-header-gradient text-white text-center py-4 rounded-xl mb-4 font-semibold text-xl shadow">
         ระบบตรวจนับสต๊อค
       </header>
 
-      {/* SEARCH */}
       <SearchBar value={query} onChange={setQuery} />
 
-      {/* FILTER */}
       <SegmentedFilter value={status} onChange={setStatus} />
 
-      {/* GRID */}
       {loading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
           {[1,2,3,4].map((i) => (
@@ -87,7 +82,6 @@ export default function Page() {
         </div>
       )}
 
-      {/* MODAL */}
       {selected && (
         <TransactionModal
           equipment={selected}
