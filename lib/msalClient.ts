@@ -1,4 +1,5 @@
-// lib/msalClient.ts
+"use client";
+
 import { PublicClientApplication, BrowserCacheLocation } from "@azure/msal-browser";
 
 export const msalConfig = {
@@ -9,12 +10,8 @@ export const msalConfig = {
   },
   cache: {
     cacheLocation: BrowserCacheLocation.LocalStorage,
-    storeAuthStateInCookie: true,
+    storeAuthStateInCookie: false,
   },
-};
-
-export const loginRequest = {
-  scopes: ["User.Read", "Files.ReadWrite"],
 };
 
 export const msalInstance = new PublicClientApplication(msalConfig);
